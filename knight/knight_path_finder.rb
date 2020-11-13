@@ -1,4 +1,5 @@
 require_relative "./00_tree_node.rb"
+require "byebug"
 
 class KnightPathFinder
 
@@ -62,6 +63,30 @@ class KnightPathFinder
         new_pos = KnightPathFinder.valid_move(position).select{|pos| !@considered_positions.include?(pos)}
         @considered_positions += new_pos
         new_pos
+    end
+
+    def find_path(end_pos)
+        # debugger
+        n_node = @root_node.bfs(end_pos) 
+        if n_node== @root_node
+            return [@root_node.value]
+        end
+        arr = [n_node.value]
+        curr_pos = end_pos
+        while arr.first != @root_node.value
+            parent = trace_path_back(curr_pos)
+            # debugger
+            curr_pos = parent.value
+            arr.unshift(curr_pos)
+        end
+        arr
+    end
+
+    def trace_path_back(pos)
+        # debugger
+        parent = @root_node.bfs(pos).parent
+        # debugger
+        return parent
     end
 
     
